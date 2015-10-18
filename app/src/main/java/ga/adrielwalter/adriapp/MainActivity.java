@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -14,21 +15,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import activity.CityPreference;
 import activity.FragmentDrawer;
 import activity.FriendsFragment;
 import activity.HomeFragment;
 import activity.MessagesFragment;
+import activity.MovieFragment;
 import activity.WeatherFragment;
+import adapter.SwipeListAdapter;
 
-public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
+public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
+    private SwipeListAdapter adapter;
+    private List< String> movieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +59,17 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         // display the first navigation drawer view on app launch
         displayView(0);
+
+        listView = (ListView) findViewById(R.id.listView);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        movieList = new ArrayList<>();
+        movieList.add("The Shawshank Redemption ");
+        movieList.add("The Godfather ");
+        movieList.add("The Godfather: Part II ");
+        movieList.add("The Dark Knight ");
+        adapter = new SwipeListAdapter(this, movieList);
+        listView.setAdapter(adapter);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
 
@@ -106,6 +129,10 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_messages);
                 break;
             case 3:
+                fragment = new MovieFragment();
+                title = getString(R.string.nav_item_movie);
+                break;
+            case 4:
                 fragment = new WeatherFragment();
                 title = getString(R.string.nav_item_weather);
                 break;
@@ -143,5 +170,22 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 .findFragmentById(R.id.container_body);
         wf.changeCity(city);
         new CityPreference(this).setCity(city);
+    }
+
+
+    @Override
+    public void onRefresh() {
+        fetchMovies();
+
+    }
+    public void  fetchMovies()
+    {
+        swipeRefreshLayout.setRefreshing(true);
+        movieList.add("The Good, the Bad and the Ugly ");
+        movieList.add("The Lord of the Rings: The Return of the King ");
+        movieList.add("Fight Club");
+        adapter = new SwipeListAdapter(this, movieList);
+        listView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
