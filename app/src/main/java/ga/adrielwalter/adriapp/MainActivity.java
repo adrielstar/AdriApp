@@ -2,6 +2,7 @@ package ga.adrielwalter.adriapp;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,10 +22,12 @@ import activity.FragmentDrawer;
 import activity.FriendsFragment;
 import activity.HomeFragment;
 import activity.MessagesFragment;
+import activity.MovieFragment;
 import activity.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
+    public final static String EXTRA_MESSAGE = "ga.adrielwalter.adriapp.MESSAGE";
     private static String TAG = MainActivity.class.getSimpleName();
 
     private Toolbar mToolbar;
@@ -106,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 title = getString(R.string.title_messages);
                 break;
             case 3:
+                fragment = new MovieFragment();
+                title = getString(R.string.nav_item_movie);
+                break;
+            case 4:
                 fragment = new WeatherFragment();
                 title = getString(R.string.nav_item_weather);
                 break;
@@ -143,5 +150,14 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 .findFragmentById(R.id.container_body);
         wf.changeCity(city);
         new CityPreference(this).setCity(city);
+    }
+
+    /** Called when the user clicks the Send button */
+    public void sendMessage(View view) {
+        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        EditText editText = (EditText) findViewById(R.id.edit_message);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 }
