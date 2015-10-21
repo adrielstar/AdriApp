@@ -9,6 +9,7 @@
     <string name="nav_item_home">Home</string>
     <string name="nav_item_friends">Friends</string>
     <string name="nav_item_notifications">Messages</string>
+    <string name="nav_item_movie">Movie</string>
     <string name="nav_item_weather">Weather</string>
 
     <!-- navigation drawer item labels  -->
@@ -16,10 +17,12 @@
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_friends</item>
         <item>@string/nav_item_notifications</item>
+        <item>@string/nav_item_movie</item>
         <item>@string/nav_item_weather</item>
     </string-array>
 
     <string name="title_weather">Weather</string>
+    <string name="title_movie">Movie</string>
     <string name="title_messages">Messages</string>
     <string name="title_friends">Friends</string>
     <string name="title_home">Home</string>
@@ -39,4 +42,13 @@
 
     <string name="place_not_found">Sorry, no weather data found.</string>
 
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_display_message">My Message</string>
+
 </resources>
+
+
+
+
